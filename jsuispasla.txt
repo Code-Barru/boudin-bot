@@ -1,0 +1,6 @@
+[
+  {
+    "discordId": "260109480455307264",
+    "jwtToken": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJsb2dpbiI6ImFudG9pbmUub3Vzc2VsaW5AZXBpdGVjaC5ldSIsInR6IjpudWxsLCJleHAiOjE3NDQxODQyOTF9.IwNxhH-i2NATCMxHMC_2U3UPAW7tk1Dheny8sRFj-3Y"
+  }
+]

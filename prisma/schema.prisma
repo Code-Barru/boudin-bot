@@ -1,0 +1,60 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model DiscordUser {
+  discordId String    @id @unique
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  Order     Order[]
+  sessions  Session[] @relation("UserSessions")
+  jwtToken  String?
+}
+
+model Session {
+  id            String        @id @default(uuid())
+  open          Boolean       @default(true)
+  interactionId String
+  users         DiscordUser[] @relation("UserSessions")
+  orders        Order[]
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+}
+
+model Drinks {
+  id        String   @id @default(uuid())
+  name      String
+  price     Float
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  Order     Order[]
+}
+
+model Order {
+  id          String      @id @default(uuid())
+  number      Int
+  drinkId     String
+  drink       Drinks      @relation(fields: [drinkId], references: [id])
+  userId      String
+  discordUser DiscordUser @relation(fields: [userId], references: [discordId])
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  Session     Session?    @relation(fields: [sessionId], references: [id])
+  sessionId   String?
+}
+
+model BiteOuCouilles {
+  discordId String   @id @unique
+  won       Int
+  lost      Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
