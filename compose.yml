@@ -1,0 +1,17 @@
+services:
+  discord-bot:
+    build: .
+    container_name: discord-bot
+    restart: unless-stopped
+    volumes:
+      - ./prisma/db:/app/db
+    environment:
+      - PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=false
+      - PUPPETEER_EXECUTABLE_PATH=/usr/bin/google-chrome
+      - DATABASE_URL="file:./prod.db"
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+    cap_add:
+      - SYS_ADMIN

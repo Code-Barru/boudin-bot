@@ -29,6 +29,10 @@ export default class Pointer extends Command {
         
         const { url, token } = decomposeUrl(baseUrl);
 
+        if (!url || !token) {
+            return await interaction.editReply({ content: "L'URL n'est pas valide." });
+        }
+
         const usersToValidate = await getUsersToValidate();
         const cookiesObj = await getCookies();
 
@@ -38,9 +42,12 @@ export default class Pointer extends Command {
         }
         const cookies = cookiesObj.cookies;
 
+        // const cookies: any[] = [];
+
         let results = [];
 
         for (const user of usersToValidate) {
+            // @ts-ignore
             const status = await validatePresence(url, token, user, cookies);
 
             if (status === 200) {
@@ -68,7 +75,8 @@ export default class Pointer extends Command {
 function decomposeUrl(url: string) {
     const array = url.split("/registered?token=");
     if (array.length !== 2) {
-        throw new Error("URL mal formée");
+        console.error("L'URL n'est pas valide.");
+        return { url: null, token: null };
     }
     return {
         url: array[0],
@@ -117,8 +125,10 @@ async function validatePresence(url: string, token: string, user: {discordId: st
         sourcePort: 443,
     };
 
-    cookies.push(jwtCookie);
+    // cookies.push(jwtCookie);
     const cookieString = cookies.map(cookie => `${cookie.name}=${cookie.value}`).join("; ");
+    // console.log(cookieString);
+    // const cookieString = "";
 
     try {
         await axios.post(url + '/token?format=json', {
@@ -132,6 +142,7 @@ async function validatePresence(url: string, token: string, user: {discordId: st
         }
     );
     } catch (error) {
+        // console.error(error);
         // @ts-ignore
         return error.response.status;
     }
