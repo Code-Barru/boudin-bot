@@ -42,8 +42,6 @@ export default class Pointer extends Command {
         }
         const cookies = cookiesObj.cookies;
 
-        // const cookies: any[] = [];
-
         let results = [];
 
         for (const user of usersToValidate) {
@@ -125,10 +123,8 @@ async function validatePresence(url: string, token: string, user: {discordId: st
         sourcePort: 443,
     };
 
-    // cookies.push(jwtCookie);
+    cookies.push(jwtCookie);
     const cookieString = cookies.map(cookie => `${cookie.name}=${cookie.value}`).join("; ");
-    // console.log(cookieString);
-    // const cookieString = "";
 
     try {
         await axios.post(url + '/token?format=json', {
@@ -149,5 +145,3 @@ async function validatePresence(url: string, token: string, user: {discordId: st
 
     return 200;
 }
-
-// https://intra.epitech.eu/module/2024/G-RES-000/LIL-0-1/acti-676606/event-621244/registered?token=17652155

@@ -18,6 +18,8 @@
     "glob": "^11.0.0",
     "node-schedule": "^2.1.1",
     "puppeteer": "^24.5.0",
+    "puppeteer-extra": "^3.3.6",
+    "puppeteer-extra-plugin-stealth": "^2.11.2",
     "rcon-client": "^4.2.4"
   },
   "devDependencies": {

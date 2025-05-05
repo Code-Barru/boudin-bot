@@ -4,7 +4,6 @@ import fs from 'fs';
 import Command from "../base/classes/Command";
 import CustomClient from "../base/classes/CustomClient";
 
-
 export default class Bypass extends Command {
     constructor(client: CustomClient) {
         super(client, {
@@ -19,7 +18,6 @@ export default class Bypass extends Command {
 
     async Execute(interaction: ChatInputCommandInteraction) {
         await interaction.deferReply();
-
         await gatherCookies("https://intra.epitech.eu/");
 
         await interaction.editReply({
@@ -30,17 +28,26 @@ export default class Bypass extends Command {
 
 async function gatherCookies(url: string) {
     const browser = await puppeteer.launch({ 
-        headless: true,
+        headless: false,
         args: [
             "--no-sandbox",
             "--disable-setuid-sandbox",
             "--disable-dev-shm-usage",
             "--disable-gpu",
+            '--disable-blink-features=AutomationControlled',
         ]
     });
     
     const page = await browser.newPage();
     
+    await page.evaluateOnNewDocument(() => {
+        Object.defineProperty(navigator, 'webdriver', {
+            get: () => false,
+        });
+    });
+
+    await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36');
+
     await page.goto(url, { waitUntil: 'networkidle2' });
     
     await page.waitForFunction(() => {

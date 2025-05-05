@@ -64,14 +64,19 @@ export default class JsuisPasLa extends Command {
 
 async function saveToFile(filePath: string, user: any) {
 
+    // @ts-ignore
     let data;
     try {
         await fs.access(filePath);
         const fileContent = await fs.readFile(filePath, "utf-8");
         data = JSON.parse(fileContent);
-        return true;
     } catch {
         data = [];
+    }
+
+    const isPresent = data.some((item: any) => item.discordId === user.discordId);
+    if (isPresent) {
+        return true;
     }
 
     data.push({
