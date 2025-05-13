@@ -41,10 +41,7 @@ export default class CustomClient extends Client implements ICustomClient {
 
     LoadHandlers(): void {
         this.handler.LoadEvents();
-        this.handler.LoadCommands();
-        this.handler.LoadButtons();
-        this.handler.LoadModals();
-        this.handler.LoadSelects();
+        this.handler.LoadCommands(); 
     }
 
     async HandleBitOuCouilles(interaction: ButtonInteraction, choix: string) {
